@@ -336,6 +336,7 @@ def _check_dill_version(pickle_module) -> None:
 
 reg = pmem.map_file("/mnt/pmem0/pmem.dat", 7097152000, pmem.FILE_CREATE | pmem.FILE_EXCL ,0o0666)
 str_obj = ""
+
 def save(obj, f: Union[str, os.PathLike, BinaryIO, IO[bytes]],
          pickle_module=pickle, pickle_protocol=DEFAULT_PROTOCOL, _use_new_zipfile_serialization=True) -> None:
     
@@ -386,7 +387,7 @@ def save(obj, f: Union[str, os.PathLike, BinaryIO, IO[bytes]],
             with _open_zipfile_writer(opened_file) as opened_zipfile:
                 _save(obj, opened_zipfile, pickle_module, pickle_protocol)
                 #os.fsync(opened_file)
-                dutime  = (time.time() - startTime) / 1000
+                dutime  = (time.time() - startTime) * 1000
                 print("|          {}           |".format(dutime))
                 print("|_________________________________|")
                 dataSave = pd.read_csv("/home/aisys/checkpoint.csv").drop(['Unnamed: 0'], axis = 1)
@@ -397,7 +398,7 @@ def save(obj, f: Union[str, os.PathLike, BinaryIO, IO[bytes]],
                 return
         _legacy_save(obj, opened_file, pickle_module, pickle_protocol)
     
-        dutime  = (time.time() - startTime) / 1000
+        dutime  = (time.time() - startTime) * 1000
         print("|          {}           |".format(dutime))
         print("|_________________________________|")
         dataSave = pd.read_csv("/home/aisys/checkpoint.csv").drop(['Unnamed: 0'], axis = 1)
@@ -630,7 +631,7 @@ def load(f, map_location=None, pickle_module=pickle, **pickle_load_args):
                     opened_file.seek(orig_position)
                     return torch.jit.load(opened_file)
                 result = _load(opened_zipfile, map_location, pickle_module, **pickle_load_args)
-                duTime = (time.time() - startTime) / 1000
+                duTime = (time.time() - startTime) * 1000
                 
                 print("|      Duration Time:{:.8f}       |".format(duTime))  ### duTime
                 print("|_____________________________________|")
