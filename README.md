@@ -92,6 +92,7 @@ git clone www.github.com/mansub1029/aisys2021
 pip install torch torchvision
 cd aisys2021
 cp serialization.py venv/lib/python3.*/site-packages/torch/
+cp -r nvm venv/lib/python3.*/site-packages/
 
 python main.py
 ```
@@ -104,9 +105,9 @@ python main.py
 
   
 
-For sata-ssd, we've given the path as following: **/mnt/sda/checkpoint** 
-For nvme ssd, **./checkpoint**  (home directory is on NVMe)
-For pmem, **/mnt/pmem0**. (for PMEM emulator)
+sata-ssd LOCATION, we've given the path as following: **/mnt/sda/checkpoint** 
+nvme ssd LOCATION, **./checkpoint**  (home directory is on NVMe)
+pmem LOCATION, **/mnt/pmem0**. (for PMEM emulator)
 
 ( the paths can be changed: **main_sata.py, main_nvme.py, main_nvm.py, serialization.py** )
 
@@ -117,14 +118,16 @@ For pmem, **/mnt/pmem0**. (for PMEM emulator)
 pytorch를 사용하기 위해서 source venv/bin/activate를 먼저 수행해야 main.py코드를 에러없이 수행할 수 있습니다.
 
 ```bash
-usage: main.py [-h] [--lr LR] [-m M] [-p P] [--resume]
+(usage: main.py [-h] [--lr LR] [-m M] [-p P] [--resume]
 
 PyTorch CIFAR10 Training
 
 optional arguments:
   -h, --help    show this help message and exit
   --lr LR       learning rate
-  -m M          model name
+  -m M          model name(ex) VGG, S_DLA, DPN92)
   -p P          file path
   --resume, -r  resume from checkpoint
 ```
+
+[save.sh](http://save.sh) 혹은 [load.sh](http://load.sh) 사용하시면 바로 수행해보실 수 있습니다.(load.sh를 사용 전엔 checkpoint 파일을 만들어 주셔야합니다.)
