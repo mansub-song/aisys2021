@@ -90,28 +90,26 @@ python3 -m venv venv
 source venv/bin/activate
 git clone www.github.com/mansub1029/aisys2021
 pip install torch torchvision
-cd aisys2021
 cp serialization.py venv/lib/python3.*/site-packages/torch/
 cp -r nvm venv/lib/python3.*/site-packages/
+cd aisys2021
 
-python main.py
+python main.py -r -p [checkpoint_path] -m [model_name]
 ```
 
 ## Environment Path Settings
 
-본 코드는 3개의 device type(sata-ssd, nvem, nvm)을 이용하고 있습니다. 각 device를 mount하여 device가 사용되도록 만들어 줍니다. 
+본 코드는 3개의 device type(sata-ssd, nvem, nvm)을 이용하고 있습니다. 기본적인 shell script code에선 각 device를 mount하여 device가 사용되도록 만들어 주어야 합니다. 
 
-예를 들어 /dev/sda를 마운트하기 위해서 /mnt/sda
+Path를 지정해 주기 위해 main.py를 돌릴 때 argument로 -p checkpoint_path 를 입력해 주어야 합니다. path 뒤에는 checkpoint 디렉토리가 반드시 생성되어 있어야 하고, checkpoint 디렉토리 안에 checkpoint file이 생성됩니다. 
 
-  
+For example,
 
-sata-ssd LOCATION, we've given the path as following: **/mnt/sda/checkpoint** 
+sata-ssd LOCATION, we've given the path as following: **/mnt/sda/checkpoint**
+
 nvme ssd LOCATION, **./checkpoint**  (home directory is on NVMe)
+
 pmem LOCATION, **/mnt/pmem0**. (for PMEM emulator)
-
-( the paths can be changed: **main_sata.py, main_nvme.py, main_nvm.py, serialization.py** )
-
-( ~/venv/lib/python3.*/site-packages/torch/serialization.py )
 
 ### Main Code
 
@@ -126,8 +124,14 @@ optional arguments:
   -h, --help    show this help message and exit
   --lr LR       learning rate
   -m M          model name(ex) VGG, S_DLA, DPN92)
-  -p P          file path
+  -p P          file path (device location)
   --resume, -r  resume from checkpoint
 ```
 
-[save.sh](http://save.sh) 혹은 [load.sh](http://load.sh) 사용하시면 바로 수행해보실 수 있습니다.(load.sh를 사용 전엔 checkpoint 파일을 만들어 주셔야합니다.)
+[save.sh](http://save.sh) 혹은 [load.sh](http://load.sh) 사용하시면 바로 수행해보실 수 있습니다.
+
+[save.sh](http://save.sh) - sata-ssd, nvme, nvm device를 각 머신러닝 모델(VGG, SimpleDLA, DPN92)들을 트레이닝하여 checkpoint 파일을 생성
+
+[load.sh](http://load.sh) - 각 device별 마운트된 checkpoint 파일을 이용해서 이전에 save된 checkpoint state를 load
+
+(load.sh를 사용 전엔 checkpoint 파일을 만들어 주셔야합니다.)
