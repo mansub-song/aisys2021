@@ -12,6 +12,7 @@ import os
 import sys
 from _pmem import lib, ffi
 
+#map_file() FLAG DISCRIPTION #
 #: Create the named file if it does not exist.
 FILE_CREATE = 1
 
@@ -56,9 +57,6 @@ class MemoryBuffer(object):
 
         ldata = len(data)
         if (ldata + self.pos) > self.size:
-            #print("ldata size: {}".format(ldata))
-            #print("self pos: {}".format(self.pos))
-            #print("self size: {}".format(self.size))
             raise RuntimeError("Out of range error.")
 
         new_pos = self.pos + ldata
@@ -92,19 +90,6 @@ class MemoryBuffer(object):
         if pos > self.size:
             raise RuntimeError("Out of range error.")
         self.pos = pos
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        if exc_type is None:
-            if is_pmem(self):
-                persist(self)
-            else:
-                msync(self)
-            unmap(self)
-        return False
-
 
 def map_file(file_name, file_size, flags, mode):
     """mmap it using pmem.
