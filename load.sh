@@ -2,13 +2,17 @@
 
 python3 build_csv.py
 
+
 for model in {'DPN92','VGG','S_DLA'}
 do
-	python3 main_sata.py -r -m $model
+	python3 main.py -r -m $model -p /mnt/sda
+	rm /mnt/pmem0/pmem.dat
 	echo 3 > /proc/sys/vm/drop_caches
-	python3 main_nvme.py -r -m $model
+	python3 main.py -r -m $model -p .
+	rm /mnt/pmem0/pmem.dat
 	echo 3 > /proc/sys/vm/drop_caches
-	python3 main_nvm.py -r -m $model
+	python3 main.py -r -m $model -p /mnt/pmem0
+	rm /mnt/pmem0/pmem.dat
 	echo 3 > /proc/sys/vm/drop_caches
 done
 sleep 5s

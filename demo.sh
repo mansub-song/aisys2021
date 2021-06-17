@@ -2,7 +2,6 @@
 
 python3 build_csv.py
 
-rm /mnt/pmem0/pmem.dat
 
 for model in {'DPN92','VGG','S_DLA'}
 do
