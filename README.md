@@ -94,7 +94,7 @@ cp serialization.py venv/lib/python3.*/site-packages/torch/
 cp -r nvm venv/lib/python3.*/site-packages/
 cd aisys2021
 
-python main.py -r -p [checkpoint_path] -m [model_name]
+python main.py -r -p [checkpoint_path] -m [model_name] -ld false
 ```
 
 ## Environment Path Settings
@@ -116,22 +116,23 @@ pmem LOCATION, **/mnt/pmem0**. (for PMEM emulator)
 pytorch를 사용하기 위해서 source venv/bin/activate를 먼저 수행해야 main.py코드를 에러없이 수행할 수 있습니다.
 
 ```bash
-(usage: main.py [-h] [--lr LR] [-m M] [-p P] [--resume]
+usage: test.py [-h] [--lr LR] [-m M] [-p P] [--resume] [-ld LD]
 
 PyTorch CIFAR10 Training
 
 optional arguments:
   -h, --help    show this help message and exit
   --lr LR       learning rate
-  -m M          model name(ex) VGG, S_DLA, DPN92)
-  -p P          file path (device location)
+  -m M          model name
+  -p P          file path
   --resume, -r  resume from checkpoint
+  -ld LD        true: load checkpoint, false: save checkpoint file
 ```
 
-[save.sh](http://save.sh) 혹은 [load.sh](http://load.sh) 사용하시면 바로 수행해보실 수 있습니다.
+[save.sh] 혹은 [load.sh] 사용하시면 바로 수행해보실 수 있습니다.
 
-[save.sh](http://save.sh) - sata-ssd, nvme, nvm device를 각 머신러닝 모델(VGG, SimpleDLA, DPN92)들을 트레이닝하여 checkpoint 파일을 생성
+[save.sh] - sata-ssd, nvme, nvm device를 각 머신러닝 모델(VGG, SimpleDLA, DPN92)들을 트레이닝하여 checkpoint 파일을 생성
 
-[load.sh](http://load.sh) - 각 device별 마운트된 checkpoint 파일을 이용해서 이전에 save된 checkpoint state를 load
+[load.sh] - 각 device별 마운트된 checkpoint 파일을 이용해서 이전에 save된 checkpoint state를 load
 
 (load.sh를 사용 전엔 checkpoint 파일을 만들어 주셔야합니다.)
