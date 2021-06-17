@@ -116,7 +116,7 @@ pmem LOCATION, **/mnt/pmem0**. (for PMEM emulator)
 pytorch를 사용하기 위해서 source venv/bin/activate를 먼저 수행해야 main.py코드를 에러없이 수행할 수 있습니다.
 
 ```bash
-(usage: main.py [-h] [--lr LR] [-m M] [-p P] [--resume] [-ld str]
+(usage: main.py [-h] [--lr LR] [-m M] [-p P] [--resume] [-ld]
 
 PyTorch CIFAR10 Training
 
