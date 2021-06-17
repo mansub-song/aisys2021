@@ -21,6 +21,7 @@ parser.add_argument('-m', default="DPN92", type=str, help='model name')
 parser.add_argument('-p', type=str, help='file path')
 parser.add_argument('--resume', '-r', action='store_true',
                     help='resume from checkpoint')
+parser.add_argument('-ld', default="true", type=str, help="true: load checkpoint, false: save checkpoint file")
 args = parser.parse_args()
 file_path = args.p
 model_name = args.m
@@ -179,8 +180,8 @@ def test(epoch):
         torch.save(state, '{}/checkpoint/{}_ckpt.pth'.format(file_path, model_name))
         best_acc = acc
 
-
-#for epoch in range(start_epoch, start_epoch+1):
-    #train(epoch)
-    #test(epoch)
-    #scheduler.step()
+if args.ld == "false":
+    for epoch in range(start_epoch, start_epoch+1):
+        train(epoch)
+        test(epoch)
+        scheduler.step()
